@@ -1,5 +1,7 @@
-<jsp:include page="/templates/head.jsp"></jsp:include>
-<jsp:include page="/templates/navbar.jsp"></jsp:include>
+<%@page import="java.util.ArrayList"%>
+<%@page import="com.ipartek.formacion.nidea.pojo.Material"%>
+<%@page import="com.ipartek.formacion.nidea.pojo.Mesa"%>
+
 
 
 

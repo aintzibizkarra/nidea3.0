@@ -10,6 +10,7 @@
 		<a class="btn btn-outline-primary" href="login">Login</a>
 	</c:if>
 	<c:if test="${!empty usuario}">
+		<a href="backoffice/index.jsp"> Backoffice</a>
 		<span class="badge badge-secondary">${usuario }</span>
 		<a class="btn btn-outline-danger" href="logout">Logout</a>
 	</c:if>
