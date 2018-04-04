@@ -2,7 +2,6 @@ package com.ipartek.formacion.nidea.filter;
 
 import java.io.IOException;
 import java.util.Enumeration;
-import java.util.Locale;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
@@ -59,10 +58,10 @@ public class BackofficeFilter implements Filter {
 	 */
 	private void informacionPeticion(HttpServletRequest req) {
 		System.out.println("*****************ACCESO NO PERMITIDO***********************");
-		System.out.println("IP= " + req.getLocalAddr());
-		System.out.println("PUERTO= " + req.getLocalPort());
-		System.out.println("URI= " + req.getRequestURI());
-		System.out.println("URL= " + req.getRequestURL());
+		System.out.println("IP = " + req.getLocalAddr());
+		System.out.println("PUERTO = " + req.getLocalPort());
+		System.out.println("URI = " + req.getRequestURI());
+		System.out.println("URL = " + req.getRequestURL());
 
 		System.out.println("**********Encabezados***********");
 		Enumeration<String> headerValues = req.getHeaderNames();
@@ -73,13 +72,6 @@ public class BackofficeFilter implements Filter {
 		}
 
 		System.out.println("**********Locales***********");
-		Enumeration<Locale> localValues = req.getLocales();
-		Locale localName;
-		while (localValues.hasMoreElements()) {
-			localName = localValues.nextElement();
-			System.out.println(localName + "=" + req.getLocale((localName);
-
-		}
 
 		System.out.println("***********************************************************");
 	}

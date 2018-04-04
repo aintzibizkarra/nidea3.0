@@ -4,18 +4,18 @@
 	</a>	
 	<nav class="my-2 my-md-0 mr-md-10">
 		<a class="p-2 text-dark" href="generar-mesa">Mesa</a>        
-		<a class="p-2 text-dark" href="calculadora"> Calculadora</a>     
+		<a class="p-2 text-dark" href="calculadora"> Calculadora</a> 
+		<a class="p-2 text-dark" href="materiales"> Materiales</a>      
 	</nav>
 	<c:if test="${empty usuario}">
 		<a class="btn btn-outline-primary" href="login">Login</a>
 	</c:if>
 	<c:if test="${!empty usuario}">
-		<a href="backoffice/index.jsp"> Backoffice</a>
-		<span class="badge badge-secondary">${usuario }</span>
-		<a class="btn btn-outline-danger" href="logout">Logout</a>
+		<div class="interno">
+			<a href="backoffice/materiales"> Materiales</a>
+			<span class="badge badge-secondary">${usuario }</span>
+			<a class="btn btn-outline-danger" href="logout">Logout</a>
+		</div>
 	</c:if>
-
 </div>
-
-
 <div class="container">

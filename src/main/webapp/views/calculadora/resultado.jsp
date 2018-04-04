@@ -2,6 +2,10 @@
 <%@page import="com.ipartek.formacion.nidea.pojo.Material"%>
 <%@page import="com.ipartek.formacion.nidea.pojo.Mesa"%>
 
+<%@include file="/templates/head.jsp" %>
+<%@include file="/templates/navbar.jsp" %>
+<%@include file="/templates/alert.jsp" %>
+
 
 
 
