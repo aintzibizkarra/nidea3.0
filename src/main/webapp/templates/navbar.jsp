@@ -11,11 +11,9 @@
 		<a class="btn btn-outline-primary" href="login">Login</a>
 	</c:if>
 	<c:if test="${!empty usuario}">
-		<div class="interno">
-			<a href="backoffice/materiales"> Materiales</a>
-			<span class="badge badge-secondary">${usuario }</span>
-			<a class="btn btn-outline-danger" href="logout">Logout</a>
-		</div>
+		<a class="p-2 text-dark" href="backoffice/materiales"> Materiales</a>
+		<span class="badge badge-secondary">${usuario }</span>
+		<a class="btn btn-outline-danger float-right " href="logout">Logout</a>
 	</c:if>
 </div>
 <div class="container">

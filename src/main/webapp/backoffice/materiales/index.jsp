@@ -1,3 +1,5 @@
+<%@page import="com.ipartek.formacion.nidea.controller.MaterialesController"%>
+<%@page import="com.ipartek.formacion.nidea.controller.backoffice.MaterialController"%>
 <%@include file="/templates/head.jsp" %>
 <%@include file="/templates/navbar.jsp" %>
 <%@include file="/templates/alert.jsp" %>
@@ -14,15 +16,16 @@
 %>
 
 
-<form action="backoffice/materiales" method="get">
-	<input  type="text" name="search" required placeholder="Nombre del material">
-	<input type="submit" value="Buscar">
+<form action="backoffice/materiales" method="post" class="row">
+	<div class=" input-group">
+		<input type="hidden" name="op" value="<%=MaterialController.OP_BUSQUEDA%>">
+		<input  type="text"class="form-control " name="search" required placeholder="Nombre del material">
+		<input type="submit"  value="Buscar">
+	</div>
 </form>
+<a class="btn btn-outline-dark btn-lg float-right " href="backoffice/materiales/form.jsp">Añadir</a>
 
-<div class="form-group row">
-	<a class="btn btn-outline-dark btn-lg pull-right" href="backoffice/materiales/form.jsp">Añadir Nuevo Material</a>
-</div>
-
+<!-- DataTable -->
 <table id="example" class="display table" cellspacing="0" width="100%">
   <thead>
     <tr>
@@ -33,27 +36,27 @@
   </thead>
   <tbody>
     
-    <c:forEach  items="${material}" var="material">
+    <c:forEach  items="${materiales}" var="material">
     	<tr>
     	<c:choose>
 			<c:when test="${material.precio >= 25}">
-				<td class="text-danger">${material.id}</td>
-				<td class="text-danger">${material.nombre}</td>
-				<td class="text-danger">${material.precio}&euro;</td>
 				
+					<td>${material.id}</td>
+					<td><a href="backoffice/materiales?id=${material.id}&nombre=${material.nombre}&precio=${material.precio}&op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">${material.nombre}</a></td>
+					<td class="text-danger">${material.precio}&euro;</td>
+			
 			</c:when>
 			<c:when test="${material.precio >= 6}">
-				<td class="text-primary">${material.id}</td>
-				<td class="text-primary">${material.nombre}</td>
+				<td>${material.id}</td>
+				<td><a href="backoffice/materiales?id=${material.id}&nombre=${material.nombre}&precio=${material.precio}&op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">${material.nombre}</a></td>
 				<td class="text-primary">${material.precio}&euro;</td>
 				
 			</c:when>
 			<c:otherwise>
-		          <td>${material.id}</td>
-				<td>${material.nombre}</td>
+		         <td>${material.id}</td>
+				<td><a href="backoffice/materiales?id=${material.id}&nombre=${material.nombre}&precio=${material.precio}&op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">${material.nombre}</a></td>
 				<td>${material.precio}&euro;</td>
-				
-		    </c:otherwise>
+			</c:otherwise>
 		</c:choose>	
 		</tr>
     </c:forEach>
@@ -61,7 +64,7 @@
   </tbody>
 </table>
 
-
+<!-- Fin dataTable -->
 
 
 
