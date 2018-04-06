@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import com.ipartek.formacion.nidea.pojo.Material;
 
-public class MaterialDAO {
+public class MaterialDAO implements Persistible<Material> {
 
 	private static MaterialDAO INSTANCE = null;
 
@@ -50,7 +50,7 @@ public class MaterialDAO {
 			 * DriverManager.getConnection(URL);
 			 */
 			con = ConnectionManager.getConnection();
-			String sql = "SELECT id, nombre, precio FROM material\n" + "order by id desc\n" + "LIMIT 500;";
+			String sql = "SELECT id, nombre, precio FROM material ORDER BY id DESC LIMIT 500;";
 
 			pst = con.prepareStatement(sql);
 			rs = pst.executeQuery();
@@ -86,6 +86,97 @@ public class MaterialDAO {
 		}
 
 		return lista;
+	}
+
+	@Override
+	public Material getById(int id) {
+		Connection con = null;
+		PreparedStatement pst = null;
+
+		try {
+
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+
+		}
+		return null;
+	}
+
+	@Override
+	public boolean save(Material pojo) {
+		boolean resul = false;
+		Connection con = null;
+		PreparedStatement pst = null;
+
+		try {
+			con = ConnectionManager.getConnection();
+			String sql = "INSERT INTO `material` (`nombre`, `precio`) VALUES (?, ?);";
+			pst = con.prepareStatement(sql);
+			int affetedRows = pst.executeUpdate();
+			pst.setString(1, pojo.getNombre());
+			pst.setFloat(2, pojo.getPrecio());
+
+			if (affetedRows == 1) {
+				resul = true;
+
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		} finally {
+			try {
+
+				if (pst != null) {
+					pst.close();
+				}
+
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		}
+		return resul;
+
+	}
+
+	@Override
+	public boolean delete(int id) {
+		boolean resul = false;
+		Connection con = null;
+		PreparedStatement pst = null;
+		try {
+			con = ConnectionManager.getConnection();
+			String sql = "DELETE FROM `material` WHERE  `id`= ?;";
+			pst = con.prepareStatement(sql);
+			pst.setInt(1, id);
+
+			int affetedRows = pst.executeUpdate();
+
+			if (affetedRows == 1) {
+				resul = true;
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			try {
+
+				if (pst != null) {
+					pst.close();
+				}
+
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return resul;
+
 	}
 
 }

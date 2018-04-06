@@ -137,45 +137,63 @@ public class MaterialController extends HttpServlet {
 	}
 
 	private void guardar(HttpServletRequest request) {
-		alert = new Alert("guardamos el material con id" + id, Alert.TIPO_WARNING);
+
+		Material material = new Material();
+		if (id == -1) {
+			alert = new Alert("Creado Nuevo Material ", Alert.TIPO_PRIMARY);
+			// dao.save(nombre);
+		} else {
+			alert = new Alert("Modificado Material id: " + id, Alert.TIPO_PRIMARY);
+			material.setId(id);
+			material.setNombre("Modificado");
+		}
+
+		request.setAttribute("material", material);
+		dispatcher = request.getRequestDispatcher(VIEW_FORM);
 
 	}
 
 	private void buscar(HttpServletRequest request) {
-		alert = new Alert("busqueda para: " + search, Alert.TIPO_PRIMARY);
+		alert = new Alert("Busqueda para: " + search, Alert.TIPO_PRIMARY);
 		ArrayList<Material> materiales = new ArrayList<Material>();
 		materiales = dao.getAll();
 		request.setAttribute("materiales", materiales);
 		dispatcher = request.getRequestDispatcher(VIEW_INDEX);
+
 	}
 
 	private void eliminar(HttpServletRequest request) {
-		alert = new Alert("Eliminamos el material con id" + id, Alert.TIPO_WARNING);
 
-	}
-
-	private void listar(HttpServletRequest request) {
-		ArrayList<Material> materiales = new ArrayList<Material>();
-		// Enviar como atributo la lista de materiales
-		// MaterialDAO dao = MaterialDAO.getInstance();
-		materiales = dao.getAll();
-		request.setAttribute("materiales", materiales);
-		dispatcher = request.getRequestDispatcher(VIEW_INDEX);
+		if (dao.delete(id)) {
+			alert = new Alert("Material Eliminado id " + id, Alert.TIPO_PRIMARY);
+		} else {
+			alert = new Alert("Error Eliminando, sentimos las molestias ", Alert.TIPO_WARNING);
+		}
+		listar(request);
 
 	}
 
 	private void mostrarFormulario(HttpServletRequest request) {
+
 		Material material = new Material();
 		if (id > -1) {
-			// ToDO recuperar de la bbdd ya que existe el material
-
-			alert = new Alert("Mostramos detalle id" + id, Alert.TIPO_WARNING);
+			// TODO recuperar de la BBDD que es un material que existe
+			alert = new Alert("Mostramos Detall id:" + id, Alert.TIPO_WARNING);
+			material.setId(id);
 
 		} else {
-			alert = new Alert("Nuevo producto", Alert.TIPO_WARNING);
+			alert = new Alert("Nuevo Producto", Alert.TIPO_WARNING);
 		}
 		request.setAttribute("material", material);
 		dispatcher = request.getRequestDispatcher(VIEW_FORM);
+	}
+
+	private void listar(HttpServletRequest request) {
+
+		ArrayList<Material> materiales = new ArrayList<Material>();
+		materiales = dao.getAll();
+		request.setAttribute("materiales", materiales);
+		dispatcher = request.getRequestDispatcher(VIEW_INDEX);
 
 	}
 
@@ -197,16 +215,22 @@ public class MaterialController extends HttpServlet {
 
 		if (request.getParameter("id") != null) {
 			id = Integer.parseInt(request.getParameter("id"));
+		} else {
+			id = -1;
 		}
 
 		if (request.getParameter("nombre") != null) {
 			nombre = request.getParameter("nombre");
 
+		} else {
+			nombre = "";
 		}
 
 		if (request.getParameter("precio") != null) {
 			precio = Float.parseFloat(request.getParameter("precio"));
 
+		} else {
+			precio = 0;
 		}
 
 	}

@@ -23,13 +23,13 @@
 		<input type="submit"  value="Buscar">
 	</div>
 </form>
-<a class="btn btn-outline-dark btn-lg float-right " href="backoffice/materiales/form.jsp">Añadir</a>
+<a class="btn btn-outline-dark btn-lg float-right " href="backoffice/materiales?op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">Añadir</a>
 
 <!-- DataTable -->
 <table id="example" class="display table" cellspacing="0" width="100%">
   <thead>
     <tr>
-      <th scope="col">Id</th>
+      <!--<th scope="col">Id</th>  -->
       <th scope="col">Material</th>
       <th scope="col">Precio</th>
     </tr>
@@ -41,20 +41,20 @@
     	<c:choose>
 			<c:when test="${material.precio >= 25}">
 				
-					<td>${material.id}</td>
-					<td><a href="backoffice/materiales?id=${material.id}&nombre=${material.nombre}&precio=${material.precio}&op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">${material.nombre}</a></td>
+					<!-- <td>${material.id}</td> -->
+					<td><a href="backoffice/materiales?id=${material.id}&op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">${material.nombre}</a></td>
 					<td class="text-danger">${material.precio}&euro;</td>
 			
 			</c:when>
 			<c:when test="${material.precio >= 6}">
-				<td>${material.id}</td>
-				<td><a href="backoffice/materiales?id=${material.id}&nombre=${material.nombre}&precio=${material.precio}&op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">${material.nombre}</a></td>
+				<!-- <td>${material.id}</td> -->
+				<td><a href="backoffice/materiales?id=${material.id}&op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">${material.nombre}</a></td>
 				<td class="text-primary">${material.precio}&euro;</td>
 				
 			</c:when>
 			<c:otherwise>
-		         <td>${material.id}</td>
-				<td><a href="backoffice/materiales?id=${material.id}&nombre=${material.nombre}&precio=${material.precio}&op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">${material.nombre}</a></td>
+		         <!-- <td>${material.id}</td> -->
+				<td><a href="backoffice/materiales?id=${material.id}&op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">${material.nombre}</a></td>
 				<td>${material.precio}&euro;</td>
 			</c:otherwise>
 		</c:choose>	
