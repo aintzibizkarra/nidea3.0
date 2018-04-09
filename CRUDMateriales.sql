@@ -14,7 +14,7 @@ SELECT `id`, `nombre`, `precio` FROM `material` WHERE `nombre` LIKE '%a%' ORDER 
 
 -- Lectura (read) Detalle
 
-SELECT id`, `nombre`, precio`FROM `material` WHERE `id`= 8;
+SELECT `id`, `nombre`, `precio` FROM `material` WHERE `id`= 8;
 
 -- Modificaciones (Update)
 

@@ -39,50 +39,25 @@ public class MaterialDAO implements Persistible<Material> {
 	public ArrayList<Material> getAll() {
 
 		ArrayList<Material> lista = new ArrayList<Material>();
-		Connection con = null;
-		PreparedStatement pst = null;
-		ResultSet rs = null;
+		String sql = "SELECT id, nombre, precio FROM material ORDER BY id DESC LIMIT 500;";
 
-		try {
+		try (Connection con = ConnectionManager.getConnection();
+				PreparedStatement pst = con.prepareStatement(sql);
+				ResultSet rs = pst.executeQuery();) {
 			/**
 			 * Class.forName("com.mysql.jdbc.Driver"); final String URL =
 			 * "jdbc:mysql://192.168.0.42/spoty?user=alumno&password=alumno"; con =
 			 * DriverManager.getConnection(URL);
 			 */
-			con = ConnectionManager.getConnection();
-			String sql = "SELECT id, nombre, precio FROM material ORDER BY id DESC LIMIT 500;";
-
-			pst = con.prepareStatement(sql);
-			rs = pst.executeQuery();
 
 			Material m = null;
 			while (rs.next()) {
-				m = new Material();
-				m.setId(rs.getInt("id"));
-				m.setNombre(rs.getString("nombre"));
-				m.setPrecio(rs.getFloat("precio"));
+				m = mapper(rs);
 				lista.add(m);
 			}
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-
-			try {
-				if (rs != null) {
-					rs.close();
-				}
-
-				if (pst != null) {
-					pst.close();
-				}
-
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 
 		return lista;
@@ -90,17 +65,23 @@ public class MaterialDAO implements Persistible<Material> {
 
 	@Override
 	public Material getById(int id) {
-		Connection con = null;
-		PreparedStatement pst = null;
+		Material material = null;
+		String sql = "SELECT `id`, `nombre`, `precio` FROM `material` WHERE `id`= ?;";
 
-		try {
+		try (Connection con = ConnectionManager.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
+			pst.setInt(1, id);
+			try (ResultSet rs = pst.executeQuery()) {
+				if (rs.next()) {
+					material = mapper(rs);
+
+				}
+
+			}
 
 		} catch (Exception e) {
-			// TODO: handle exception
-		} finally {
-
+			e.printStackTrace();
 		}
-		return null;
+		return material;
 	}
 
 	@Override
@@ -122,7 +103,7 @@ public class MaterialDAO implements Persistible<Material> {
 
 			}
 		} catch (Exception e) {
-			// TODO: handle exception
+
 		} finally {
 			try {
 
@@ -177,6 +158,19 @@ public class MaterialDAO implements Persistible<Material> {
 		}
 		return resul;
 
+	}
+
+	@Override
+	public Material mapper(ResultSet rs) throws SQLException {
+		Material m = null;
+		if (rs != null) {
+			m = new Material();
+			m.setNombre(rs.getString("nombre"));
+			m.setId(rs.getInt("id"));
+			m.setPrecio(rs.getFloat("precio"));
+		}
+
+		return m;
 	}
 
 }
