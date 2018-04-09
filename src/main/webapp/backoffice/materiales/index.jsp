@@ -24,7 +24,7 @@
 	</div>
 </form>
 <a class="btn btn-outline-dark btn-lg float-right " href="backoffice/materiales?op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">Añadir</a>
-
+<br>
 <!-- DataTable -->
 <table id="example" class="display table" cellspacing="0" width="100%">
   <thead>
@@ -40,17 +40,14 @@
     	<tr>
     	<c:choose>
 			<c:when test="${material.precio >= 25}">
-				
-					<!-- <td>${material.id}</td> -->
-					<td><a href="backoffice/materiales?id=${material.id}&op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">${material.nombre}</a></td>
-					<td class="text-danger">${material.precio}&euro;</td>
-			
+				<!-- <td>${material.id}</td> -->
+				<td><a href="backoffice/materiales?id=${material.id}&op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">${material.nombre}</a></td>
+				<td class="text-danger">${material.precio}&euro;</td>
 			</c:when>
 			<c:when test="${material.precio >= 6}">
 				<!-- <td>${material.id}</td> -->
 				<td><a href="backoffice/materiales?id=${material.id}&op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">${material.nombre}</a></td>
 				<td class="text-primary">${material.precio}&euro;</td>
-				
 			</c:when>
 			<c:otherwise>
 		         <!-- <td>${material.id}</td> -->
@@ -60,8 +57,7 @@
 		</c:choose>	
 		</tr>
     </c:forEach>
-   
-  </tbody>
+   </tbody>
 </table>
 
 <!-- Fin dataTable -->

@@ -139,13 +139,16 @@ public class MaterialController extends HttpServlet {
 	private void guardar(HttpServletRequest request) {
 
 		Material material = new Material();
-		if (id == -1) {
-			alert = new Alert("Creado Nuevo Material ", Alert.TIPO_PRIMARY);
-			// dao.save(nombre);
+		// Los recojo desde el formulario ya que ya estan mapeados.
+		// Lo importante es el atributo name
+		material.setId(id);
+		material.setNombre(nombre);
+		material.setPrecio(precio);
+
+		if (dao.save(material)) {
+			alert = new Alert("Material guardado en la Base de Datos.", Alert.TIPO_PRIMARY);
 		} else {
-			alert = new Alert("Modificado Material id: " + id, Alert.TIPO_PRIMARY);
-			material.setId(id);
-			material.setNombre("Modificado");
+			alert = new Alert("No se ha podido guardar el material, el material ya existe. ", Alert.TIPO_WARNING);
 		}
 
 		request.setAttribute("material", material);
@@ -156,7 +159,7 @@ public class MaterialController extends HttpServlet {
 	private void buscar(HttpServletRequest request) {
 		alert = new Alert("Busqueda para: " + search, Alert.TIPO_PRIMARY);
 		ArrayList<Material> materiales = new ArrayList<Material>();
-		materiales = dao.getAll();
+		materiales = dao.getByName(search);
 		request.setAttribute("materiales", materiales);
 		dispatcher = request.getRequestDispatcher(VIEW_INDEX);
 
@@ -180,7 +183,7 @@ public class MaterialController extends HttpServlet {
 			material = dao.getById(id);
 
 		} else {
-			alert = new Alert("Nuevo Producto", Alert.TIPO_WARNING);
+
 		}
 		request.setAttribute("material", material);
 		dispatcher = request.getRequestDispatcher(VIEW_FORM);

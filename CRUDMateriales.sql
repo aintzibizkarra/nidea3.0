@@ -18,8 +18,7 @@ SELECT `id`, `nombre`, `precio` FROM `material` WHERE `id`= 8;
 
 -- Modificaciones (Update)
 
-UPDATE `material` SET `nombre`="cerveza" WHERE `id` = 8;
- 
+UPDATE `material` SET `nombre`="cerveza",`precio`="1.25" WHERE `id` = 8; 
 
 --Eliminar (Delete)
 

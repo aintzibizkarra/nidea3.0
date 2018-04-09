@@ -17,7 +17,7 @@
 	  <div class="form-group row">
 	    <label for="nombre" class="col-sm-2 col-form-label">Material</label>
 	    <div class="col-sm-5">
-	      <input type="text" class="form-control" name="nombre" placeholder="Introduce el nombre del material" value="${material.nombre}">
+	      <input type="text"  required autofocus class="form-control" name="nombre" placeholder="Introduce el nombre del material" value="${material.nombre}">
 	    </div>
 	  </div>
 	  <div class="input-group ">

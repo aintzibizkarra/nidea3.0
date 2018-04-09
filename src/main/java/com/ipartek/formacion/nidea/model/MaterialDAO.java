@@ -44,11 +44,28 @@ public class MaterialDAO implements Persistible<Material> {
 		try (Connection con = ConnectionManager.getConnection();
 				PreparedStatement pst = con.prepareStatement(sql);
 				ResultSet rs = pst.executeQuery();) {
-			/**
-			 * Class.forName("com.mysql.jdbc.Driver"); final String URL =
-			 * "jdbc:mysql://192.168.0.42/spoty?user=alumno&password=alumno"; con =
-			 * DriverManager.getConnection(URL);
-			 */
+			Material m = null;
+			while (rs.next()) {
+				m = mapper(rs);
+				lista.add(m);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return lista;
+	}
+
+	public ArrayList<Material> getByName(String search) {
+
+		ArrayList<Material> lista = new ArrayList<Material>();
+		String sql = "SELECT id, nombre, precio FROM material WHERE nombre LIKE '%" + search
+				+ "%' ORDER BY id DESC LIMIT 500;";
+
+		try (Connection con = ConnectionManager.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
+			ResultSet rs = pst.executeQuery();
+			;
 
 			Material m = null;
 			while (rs.next()) {
@@ -87,51 +104,78 @@ public class MaterialDAO implements Persistible<Material> {
 	@Override
 	public boolean save(Material pojo) {
 		boolean resul = false;
-		Connection con = null;
-		PreparedStatement pst = null;
 
-		try {
-			con = ConnectionManager.getConnection();
-			String sql = "INSERT INTO `material` (`nombre`, `precio`) VALUES (?, ?);";
-			pst = con.prepareStatement(sql);
-			int affetedRows = pst.executeUpdate();
-			pst.setString(1, pojo.getNombre());
-			pst.setFloat(2, pojo.getPrecio());
-
-			if (affetedRows == 1) {
-				resul = true;
-
+		if (pojo != null) {
+			if (pojo.getId() == -1) {
+				resul = crear(pojo);
+			} else {
+				resul = modificar(pojo);
 			}
-		} catch (Exception e) {
-
-		} finally {
-			try {
-
-				if (pst != null) {
-					pst.close();
-				}
-
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-
 		}
 		return resul;
 
 	}
 
+	private boolean crear(Material pojo) {
+		boolean resultado = false;
+		String sql = "INSERT INTO `material` (`nombre`, `precio`) VALUES (?, ?); ";
+		// PreparedStatement.RETURN_GENERATED_KEYS me devuelve las claves generadas. El
+		// prepareStatement permite un segundo parametro
+		try (Connection con = ConnectionManager.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
+			if (!pojo.getNombre().isEmpty()) {
+				pst.setString(1, pojo.getNombre().trim());
+			}
+			pst.setFloat(2, Math.abs(pojo.getPrecio()));
+
+			int affetedRows = pst.executeUpdate();
+
+			if (affetedRows == 1) {
+
+				// Recuperar ID generado de forma automatica
+				try (ResultSet rs = pst.getGeneratedKeys();) {
+					while (rs.next()) {
+						pojo.setId(rs.getInt(1));
+						resultado = true;
+					}
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return resultado;
+	}
+
+	private boolean modificar(Material pojo) {
+		boolean resul = false;
+		String sql = "UPDATE `material` SET `nombre`= ? , `precio`= ? WHERE  `id`= ?;";
+		try (Connection con = ConnectionManager.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
+			if (!pojo.getNombre().isEmpty()) {
+				pst.setString(1, pojo.getNombre().trim());
+			}
+
+			pst.setFloat(2, Math.abs(pojo.getPrecio()));
+			pst.setInt(3, pojo.getId());
+
+			int affectedRows = pst.executeUpdate();
+			if (affectedRows == 1) {
+				resul = true;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return resul;
+	}
+
 	@Override
 	public boolean delete(int id) {
 		boolean resul = false;
-		Connection con = null;
-		PreparedStatement pst = null;
-		try {
-			con = ConnectionManager.getConnection();
-			String sql = "DELETE FROM `material` WHERE  `id`= ?;";
-			pst = con.prepareStatement(sql);
+		String sql = "DELETE FROM `material` WHERE  `id`= ?;";
+
+		try (Connection con = ConnectionManager.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 			pst.setInt(1, id);
 
 			int affetedRows = pst.executeUpdate();
@@ -142,19 +186,6 @@ public class MaterialDAO implements Persistible<Material> {
 
 		} catch (Exception e) {
 			e.printStackTrace();
-		} finally {
-			try {
-
-				if (pst != null) {
-					pst.close();
-				}
-
-				if (con != null) {
-					con.close();
-				}
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
 		}
 		return resul;
 
