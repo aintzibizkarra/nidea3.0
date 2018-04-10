@@ -17,7 +17,7 @@
 	  <div class="form-group row">
 	    <label for="nombre" class="col-sm-2 col-form-label">Material</label>
 	    <div class="col-sm-5">
-	      <input type="text"  required autofocus class="form-control" name="nombre" placeholder="Introduce el nombre del material" value="${material.nombre}">
+	      <input type="text"   autofocus class="form-control" name="nombre" placeholder="Introduce el nombre del material" value="${material.nombre}">
 	    </div>
 	  </div>
 	  <div class="input-group ">
@@ -44,10 +44,36 @@
 			    <button type="submit" class="btn btn-success btn-lg btn-block" >Modificar</button>
 			 </div>
 			 <div class="col-sm-6">
-			     <a href="backoffice/materiales?id=${material.id}&op=<%=MaterialController.OP_ELIMINAR%>" 
-			       class="btn btn-danger btn-lg btn-block">Eliminar</a>
+				<!-- Button trigger modal -->
+				<button type="button" class="btn btn-danger btn-lg btn-block" data-toggle="modal" data-target="#botonModal">
+				 Eliminar
+				</button>
+				
+				<!-- Modal -->
+				<div class="modal fade" id="botonModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				      	<h5 class="modal-title" id="exampleModalLabel">Confirmacion de eliminacion de Material</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body">
+				       ¿Deseas eliminar el material seleccionado?
+				      </div>
+				      <div class="modal-footer">
+				        <a href="backoffice/materiales?id=${material.id}&op=<%=MaterialController.OP_ELIMINAR%>" 
+			       class="btn btn-danger">Eliminar</a>
+				      </div>
+				    </div>
+				  </div>
+				</div>
 			 </div>
 		  </div>
 	   </c:if>
 	</form>
 </div>
+
+
+<%@include file="/templates/footer.jsp"%>

@@ -141,19 +141,40 @@ public class MaterialController extends HttpServlet {
 		Material material = new Material();
 		// Los recojo desde el formulario ya que ya estan mapeados.
 		// Lo importante es el atributo name
-		material.setId(id);
-		material.setNombre(nombre);
-		material.setPrecio(precio);
 
-		if (dao.save(material)) {
-			alert = new Alert("Material guardado en la Base de Datos.", Alert.TIPO_PRIMARY);
-		} else {
-			alert = new Alert("No se ha podido guardar el material, el material ya existe. ", Alert.TIPO_WARNING);
+		try {
+
+			material.setId(id);
+			material.setNombre(nombre);
+
+			if (request.getParameter("precio") != null) {
+				precio = Float.parseFloat(request.getParameter("precio"));
+				material.setPrecio(precio);
+
+			} else {
+				if (dao.save(material)) {
+					if(material.getNombre() == "") {
+						alert =  new Alert("Lo sentimos pero ya existe el nombre del material", Alert.TIPO_WARNING);
+						if(material.getNombre().length()>45) {
+							alert =  new Alert("El nombre del material debe contener un valor entre 1 y 45 caracteres", Alert.TIPO_WARNING);
+						}
+					} else {
+						alert = new Alert("Material guardado", Alert.TIPO_PRIMARY);
+					}
+					
+				} else {
+					
+					alert = new Alert("Lo sentimos pero ya existe el nombre del material", Alert.TIPO_WARNING);
+				}
+			}
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			alert = new Alert("<b>" + request.getParameter("precio") + "</b> no es un precio correcto",
+					Alert.TIPO_WARNING);
 		}
 
 		request.setAttribute("material", material);
 		dispatcher = request.getRequestDispatcher(VIEW_FORM);
-
 	}
 
 	private void buscar(HttpServletRequest request) {
@@ -170,7 +191,7 @@ public class MaterialController extends HttpServlet {
 		if (dao.delete(id)) {
 			alert = new Alert("Material Eliminado id " + id, Alert.TIPO_PRIMARY);
 		} else {
-			alert = new Alert("Error Eliminando, sentimos las molestias ", Alert.TIPO_WARNING);
+			alert = new Alert("No se puedo eliminar el material seleccionado. ", Alert.TIPO_WARNING);
 		}
 		listar(request);
 
@@ -227,12 +248,12 @@ public class MaterialController extends HttpServlet {
 			nombre = "";
 		}
 
-		if (request.getParameter("precio") != null) {
-			precio = Float.parseFloat(request.getParameter("precio"));
-
-		} else {
-			precio = 0;
-		}
+		/*
+		 * if (request.getParameter("precio") != null) { precio =
+		 * Math.abs(Float.parseFloat(request.getParameter("precio")));
+		 * 
+		 * } else { precio = 0; }
+		 */
 
 	}
 

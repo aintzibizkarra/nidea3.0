@@ -60,17 +60,16 @@ public class MaterialDAO implements Persistible<Material> {
 	public ArrayList<Material> getByName(String search) {
 
 		ArrayList<Material> lista = new ArrayList<Material>();
-		String sql = "SELECT id, nombre, precio FROM material WHERE nombre LIKE '%" + search
-				+ "%' ORDER BY id DESC LIMIT 500;";
+		String sql = "SELECT id, nombre, precio FROM material WHERE nombre LIKE ? ORDER BY id DESC LIMIT 500;";
 
 		try (Connection con = ConnectionManager.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
-			ResultSet rs = pst.executeQuery();
-			;
-
-			Material m = null;
-			while (rs.next()) {
-				m = mapper(rs);
-				lista.add(m);
+			pst.setString(1, "%" + search + "%");
+			try (ResultSet rs = pst.executeQuery()) {
+				Material m = null;
+				while (rs.next()) {
+					m = mapper(rs);
+					lista.add(m);
+				}
 			}
 
 		} catch (Exception e) {
@@ -106,26 +105,35 @@ public class MaterialDAO implements Persistible<Material> {
 		boolean resul = false;
 
 		if (pojo != null) {
-			if (pojo.getId() == -1) {
-				resul = crear(pojo);
-			} else {
+			try {
+				if (pojo.getId() == -1) {
+					resul = crear(pojo);
+				}
+			} catch (Exception e) {
+
+				e.printStackTrace();
+			}
+		} else {
+			try {
 				resul = modificar(pojo);
+			} catch (Exception e) {
+
+				e.printStackTrace();
 			}
 		}
 		return resul;
 
 	}
 
-	private boolean crear(Material pojo) {
+	private boolean crear(Material pojo) throws Exception {
 		boolean resultado = false;
 		String sql = "INSERT INTO `material` (`nombre`, `precio`) VALUES (?, ?); ";
 		// PreparedStatement.RETURN_GENERATED_KEYS me devuelve las claves generadas. El
 		// prepareStatement permite un segundo parametro
 		try (Connection con = ConnectionManager.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
-			if (!pojo.getNombre().isEmpty()) {
-				pst.setString(1, pojo.getNombre().trim());
-			}
-			pst.setFloat(2, Math.abs(pojo.getPrecio()));
+
+			pst.setString(1, pojo.getNombre().trim());
+			pst.setFloat(2, pojo.getPrecio());
 
 			int affetedRows = pst.executeUpdate();
 
@@ -142,6 +150,7 @@ public class MaterialDAO implements Persistible<Material> {
 					e.printStackTrace();
 				}
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -149,15 +158,13 @@ public class MaterialDAO implements Persistible<Material> {
 		return resultado;
 	}
 
-	private boolean modificar(Material pojo) {
+	private boolean modificar(Material pojo) throws Exception {
 		boolean resul = false;
 		String sql = "UPDATE `material` SET `nombre`= ? , `precio`= ? WHERE  `id`= ?;";
 		try (Connection con = ConnectionManager.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
-			if (!pojo.getNombre().isEmpty()) {
-				pst.setString(1, pojo.getNombre().trim());
-			}
 
-			pst.setFloat(2, Math.abs(pojo.getPrecio()));
+			pst.setString(1, pojo.getNombre().trim());
+			pst.setFloat(2, pojo.getPrecio());
 			pst.setInt(3, pojo.getId());
 
 			int affectedRows = pst.executeUpdate();
