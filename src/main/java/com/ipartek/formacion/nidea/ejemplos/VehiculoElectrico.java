@@ -26,6 +26,11 @@ public class VehiculoElectrico extends Vehiculo {
 		System.out.println("Pulsar el boton encendido.");
 	}
 
+	public VehiculoElectrico(float potencia) {
+		this(); // hay que cambiar el por defecto super() por this()
+		this.potencia = potencia;
+	}
+
 	@Override
 	public String toString() {
 		return super.toString() + " VehiculoElectrico [potencia=" + potencia + "]";

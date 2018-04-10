@@ -1,6 +1,6 @@
 package com.ipartek.formacion.nidea.ejemplos;
 
-public class Vehiculo {
+public abstract class Vehiculo {
 
 	private int puertas;
 	private String color;
@@ -29,8 +29,10 @@ public class Vehiculo {
 		this.color = color;
 	}
 
-	public void arrancar() {
-		System.out.println("Introducir llave y girar para arrancar.Brummm brummm!!!!");
+	public abstract void arrancar();
+
+	public void encenderLuces() {
+		System.out.println("Luces encendidas.");
 	}
 
 	@Override
