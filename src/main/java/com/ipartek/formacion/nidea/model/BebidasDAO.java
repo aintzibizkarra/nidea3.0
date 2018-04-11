@@ -8,6 +8,10 @@ import com.ipartek.formacion.nidea.pojo.Bebida;
 
 public class BebidasDAO implements Persistible<Bebida> {
 
+	private BebidasDAO() {
+
+	}
+
 	@Override
 	public ArrayList<Bebida> getAll() {
 		// TODO Auto-generated method stub

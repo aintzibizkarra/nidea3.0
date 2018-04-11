@@ -1,8 +1,10 @@
-package com.ipartek.formacion.nidea.ejemplos;
+package com.ipartek.formacion.nidea.util;
 
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Test;
+
+import com.ipartek.formacion.nidea.util.Utilidades;
 
 public class UtilidadesTest {
 

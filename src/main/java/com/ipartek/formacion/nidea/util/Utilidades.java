@@ -1,4 +1,4 @@
-package com.ipartek.formacion.nidea.ejemplos;
+package com.ipartek.formacion.nidea.util;
 
 public class Utilidades {
 
@@ -15,8 +15,13 @@ public class Utilidades {
 	 */
 	public static String limpiarEspacios(String cadena) {
 
-		String cadena1 = "               hola que hace           ";
-		return cadena1.trim();
+		String resul = "";
+		if (cadena != null) {
+			resul = cadena.trim();
+			resul = resul.replaceAll("\\s+ ", " ");
+
+		}
+		return resul;
 
 	}
 }

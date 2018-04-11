@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.ipartek.formacion.nidea.pojo.Material;
+import com.ipartek.formacion.nidea.util.Utilidades;
 
 public class MaterialDAO implements Persistible<Material> {
 
@@ -104,6 +105,8 @@ public class MaterialDAO implements Persistible<Material> {
 	public boolean save(Material pojo) {
 		boolean resul = false;
 
+		// Sanear el nombre (para meter datos no incorrectos en la BD)
+		pojo.setNombre(Utilidades.limpiarEspacios(pojo.getNombre()));
 		if (pojo != null) {
 			try {
 				if (pojo.getId() == -1) {
@@ -132,7 +135,7 @@ public class MaterialDAO implements Persistible<Material> {
 		// prepareStatement permite un segundo parametro
 		try (Connection con = ConnectionManager.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
 
-			pst.setString(1, pojo.getNombre().trim());
+			pst.setString(1, pojo.getNombre());
 			pst.setFloat(2, pojo.getPrecio());
 
 			int affetedRows = pst.executeUpdate();

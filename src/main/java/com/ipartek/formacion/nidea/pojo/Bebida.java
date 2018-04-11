@@ -1,10 +1,26 @@
 package com.ipartek.formacion.nidea.pojo;
 
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 public class Bebida {
 
 	private int id;
+
+	@NotNull
+	@Size(min = 3, max = 45)
 	private String nombre;
+
+	@DecimalMin("0.1")
 	private float precio;
+
+	public Bebida() {
+		super();
+		this.id = -1;
+		this.nombre = "";
+		this.precio = 0f;
+	}
 
 	public int getId() {
 		return id;
@@ -19,6 +35,7 @@ public class Bebida {
 	}
 
 	public void setNombre(String nombre) {
+
 		this.nombre = nombre;
 	}
 
@@ -30,6 +47,9 @@ public class Bebida {
 		this.precio = precio;
 	}
 
-	// TODO RESTO COSAS
+	@Override
+	public String toString() {
+		return "Bebida [id=" + id + ", nombre=" + nombre + ", precio=" + precio + "]";
+	}
 
 }
