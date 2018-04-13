@@ -1,6 +1,8 @@
 package com.ipartek.formacion.nidea.ejemploHerencia;
 
-public abstract class ObjetoGrafico implements Imprimible {
+import java.io.Serializable;
+
+public abstract class ObjetoGrafico implements Imprimible, Cloneable, Serializable {
 	private int posicionX;
 	private int posicionY;
 

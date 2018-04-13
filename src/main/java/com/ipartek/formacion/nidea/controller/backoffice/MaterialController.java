@@ -101,6 +101,8 @@ public class MaterialController extends HttpServlet {
 	private void doProcess(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
+		alert = null;
+
 		try {
 
 			recogerParametros(request);
@@ -153,17 +155,18 @@ public class MaterialController extends HttpServlet {
 
 			} else {
 				if (dao.save(material)) {
-					if(material.getNombre() == "") {
-						alert =  new Alert("Lo sentimos pero ya existe el nombre del material", Alert.TIPO_WARNING);
-						if(material.getNombre().length()>45) {
-							alert =  new Alert("El nombre del material debe contener un valor entre 1 y 45 caracteres", Alert.TIPO_WARNING);
+					if (material.getNombre() == "") {
+						alert = new Alert("Lo sentimos pero ya existe el nombre del material", Alert.TIPO_WARNING);
+						if (material.getNombre().length() > 45) {
+							alert = new Alert("El nombre del material debe contener un valor entre 1 y 45 caracteres",
+									Alert.TIPO_WARNING);
 						}
 					} else {
 						alert = new Alert("Material guardado", Alert.TIPO_PRIMARY);
 					}
-					
+
 				} else {
-					
+
 					alert = new Alert("Lo sentimos pero ya existe el nombre del material", Alert.TIPO_WARNING);
 				}
 			}

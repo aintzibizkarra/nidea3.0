@@ -15,8 +15,11 @@
   <a href="material"><img src="img/materiales.jpg" class="rounded" alt="materiales"></a>
 </div>
 
-
-
+<ul>
+	<c:forEach items="${applicationScope.usuarios_conenctados}" var="usuario">
+		<li>${usuario.key} -${usuario.value}</li>	
+	</c:forEach>
+</ul>
 
 
 <%@include file="/templates/footer.jsp"%>
