@@ -15,8 +15,5 @@
   	<location>/pagina404.jsp</location>
   </error-page>
   
-   <error-page>
-  	<error-code>java.lang.NullPointerException</error-code>
-  	<location>/error.jsp</location>
-  </error-page>
+   
 </web-app>

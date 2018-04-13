@@ -23,7 +23,6 @@ public class UsuariosConectadosListener implements HttpSessionListener, HttpSess
 	 * @see HttpSessionListener#sessionCreated(HttpSessionEvent)
 	 */
 	public void sessionCreated(HttpSessionEvent session) {
-		System.out.println("Sesion creada");
 
 	}
 

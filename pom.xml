@@ -84,7 +84,21 @@
 			<version>2.2.4</version>
 			<scope>test</scope>
 		</dependency>
+		
+		
+		
+		<!-- Dependencia jsoup para parsear -->
+		<!-- https://mvnrepository.com/artifact/org.jsoup/jsoup -->
+		<dependency>
+		    <groupId>org.jsoup</groupId>
+		    <artifactId>jsoup</artifactId>
+		    <version>1.11.2</version>
+		</dependency>
 	</dependencies>
+	
+	
+	
+	
 
 	<build>
 
