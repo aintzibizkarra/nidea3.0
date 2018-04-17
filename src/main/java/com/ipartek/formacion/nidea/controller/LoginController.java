@@ -22,8 +22,11 @@ public class LoginController extends HttpServlet {
 	private String view = "";
 	private Alert alert = new Alert();
 
-	private static final String USER = "admin";
-	private static final String PASS = "admin";
+	/*
+	 * private static final String USER =
+	 * "SELECT nombre FROM usuario WHERE nombre = '?'"; private static final String
+	 * PASS = "SELECT password FROM usuario";
+	 */
 
 	private static final int SESSION_EXPIRATION = -1; // no expira
 
@@ -47,10 +50,11 @@ public class LoginController extends HttpServlet {
 
 		try {
 
+			// recojo los parametros que el usuario mete en el login
 			String usuario = request.getParameter("usuario");
 			String password = request.getParameter("password");
 
-			if (USER.equalsIgnoreCase(usuario) && PASS.equals(password)) {
+			if (usuario.equalsIgnoreCase(usuario) && password.equals(password)) {
 
 				// Guardar usuario en sesion
 				HttpSession session = request.getSession();
