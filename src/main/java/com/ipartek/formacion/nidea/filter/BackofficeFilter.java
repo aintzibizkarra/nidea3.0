@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.ipartek.formacion.nidea.pojo.Usuarios;
+
 /**
  * Servlet Filter implementation class BackofficeFilter
  */
@@ -40,7 +42,8 @@ public class BackofficeFilter implements Filter {
 		HttpServletResponse res = (HttpServletResponse) response;
 
 		HttpSession session = req.getSession();
-		if (null != session.getAttribute("usuario")) {
+		Usuarios usuario = (Usuarios) session.getAttribute("usuario");
+		if (null != usuario && usuario.getRol().getId() == Usuarios.ROL_ADMIN) {
 			// pass the request along the filter chain
 			chain.doFilter(request, response);
 		} else {

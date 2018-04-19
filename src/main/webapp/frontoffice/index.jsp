@@ -3,20 +3,24 @@
 <%@include file="/templates/alert.jsp" %>
 
 <script>
-	setTimeout(function () {
-	   location.reload();
-	   5000
-		};
+setTimeout(function () { location.reload(1); }, 5000);	
 </script>
-<h1>Lista de usuarios conectados</h1>
 
-<!-- applicationScope(JSP)==ServletContext(Servlet) -->
+YA ESTAS LOGEADO EN EL FRONTOFFICE <br>
 
-<!--para mostrar datos del contexto  ${applicationScope.usuarios_conenctados}-->
+
+applicationScope (JSP ) == ServletContext ( servlet ) <br>
+
+<h2>Usuarios Conectados</h2>
+
+
+
+
+<hr>
 
 <ul>
-	<c:forEach items="${applicationScope.usuarios_conenctados}" var="usuario">
-		<li>${usuario.key} -${usuario.value}</li>	
+	<c:forEach var="usuario" items="${applicationScope.usuarios_conectados}">
+		<li>${usuario.key} - ${usuario.value}</li>
 	</c:forEach>
 </ul>
 

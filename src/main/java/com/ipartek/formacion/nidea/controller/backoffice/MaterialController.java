@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.ipartek.formacion.nidea.model.MaterialDAO;
+import com.ipartek.formacion.nidea.model.UsuarioDAO;
 import com.ipartek.formacion.nidea.pojo.Alert;
 import com.ipartek.formacion.nidea.pojo.Material;
 
@@ -34,7 +35,8 @@ public class MaterialController extends HttpServlet {
 
 	private RequestDispatcher dispatcher;
 
-	private MaterialDAO dao;
+	private MaterialDAO daoMaterial;
+	private UsuarioDAO daoUsuario;
 
 	// Parametros del material
 	private int id;
@@ -51,7 +53,8 @@ public class MaterialController extends HttpServlet {
 	public void init(ServletConfig config) throws ServletException {
 
 		super.init(config);
-		dao = MaterialDAO.getInstance();
+		daoMaterial = MaterialDAO.getInstance();
+		daoUsuario = UsuarioDAO.getInstance();
 	}
 
 	/**
@@ -59,7 +62,8 @@ public class MaterialController extends HttpServlet {
 	 */
 	@Override
 	public void destroy() {
-		dao = null;
+		daoMaterial = null;
+		daoUsuario = null;
 	}
 
 	@Override
@@ -154,7 +158,7 @@ public class MaterialController extends HttpServlet {
 				material.setPrecio(precio);
 
 			} else {
-				if (dao.save(material)) {
+				if (daoMaterial.save(material)) {
 					if (material.getNombre() == "") {
 						alert = new Alert("Lo sentimos pero ya existe el nombre del material", Alert.TIPO_WARNING);
 						if (material.getNombre().length() > 45) {
@@ -183,7 +187,7 @@ public class MaterialController extends HttpServlet {
 	private void buscar(HttpServletRequest request) {
 		alert = new Alert("Busqueda para: " + search, Alert.TIPO_PRIMARY);
 		ArrayList<Material> materiales = new ArrayList<Material>();
-		materiales = dao.getByName(search);
+		materiales = daoMaterial.getByName(search);
 		request.setAttribute("materiales", materiales);
 		dispatcher = request.getRequestDispatcher(VIEW_INDEX);
 
@@ -191,7 +195,7 @@ public class MaterialController extends HttpServlet {
 
 	private void eliminar(HttpServletRequest request) {
 
-		if (dao.delete(id)) {
+		if (daoMaterial.delete(id)) {
 			alert = new Alert("Material Eliminado id " + id, Alert.TIPO_PRIMARY);
 		} else {
 			alert = new Alert("No se puedo eliminar el material seleccionado. ", Alert.TIPO_WARNING);
@@ -204,11 +208,13 @@ public class MaterialController extends HttpServlet {
 
 		Material material = new Material();
 		if (id > -1) {
-			material = dao.getById(id);
+			material = daoMaterial.getById(id);
 
 		} else {
 
 		}
+
+		request.setAttribute("usuarios", daoUsuario.getAll());
 		request.setAttribute("material", material);
 		dispatcher = request.getRequestDispatcher(VIEW_FORM);
 	}
@@ -216,7 +222,7 @@ public class MaterialController extends HttpServlet {
 	private void listar(HttpServletRequest request) {
 
 		ArrayList<Material> materiales = new ArrayList<Material>();
-		materiales = dao.getAll();
+		materiales = daoMaterial.getAll();
 		request.setAttribute("materiales", materiales);
 		dispatcher = request.getRequestDispatcher(VIEW_INDEX);
 

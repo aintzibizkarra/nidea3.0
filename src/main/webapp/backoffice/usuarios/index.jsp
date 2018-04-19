@@ -6,7 +6,7 @@
 
 
 
-<h1>Lista de Materiales</h1>
+<h1>Lista de Usuarios</h1>
 
 <%
 	//ArrayList <Materiales> lista = (ArrayList <Materiales>) request.getAttribute("materiales"); 
@@ -32,7 +32,6 @@
       <!--<th scope="col">Id</th>  -->
       <th scope="col">Material</th>
       <th scope="col">Precio</th>
-      <th scope="col">Usuario</th>
     </tr>
   </thead>
   <tbody>
@@ -44,19 +43,16 @@
 				<!-- <td>${material.id}</td> -->
 				<td><a href="backoffice/materiales?id=${material.id}&op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">${material.nombre}</a></td>
 				<td class="text-danger">${material.precio}&euro;</td>
-				<td >${material.usuario.nombre}</td>
 			</c:when>
 			<c:when test="${material.precio >= 6}">
 				<!-- <td>${material.id}</td> -->
 				<td><a href="backoffice/materiales?id=${material.id}&op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">${material.nombre}</a></td>
 				<td class="text-primary">${material.precio}&euro;</td>
-				<td >${material.usuario.nombre}</td>
 			</c:when>
 			<c:otherwise>
 		         <!-- <td>${material.id}</td> -->
 				<td><a href="backoffice/materiales?id=${material.id}&op=<%=MaterialController.OP_MOSTRAR_FORMULARIO%>">${material.nombre}</a></td>
 				<td>${material.precio}&euro;</td>
-				<td>${material.usuario.nombre}</td>
 			</c:otherwise>
 		</c:choose>	
 		</tr>

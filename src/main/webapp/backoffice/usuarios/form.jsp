@@ -1,3 +1,4 @@
+<%@page import="com.ipartek.formacion.nidea.controller.backoffice.UsuarioController"%>
 <%@page import="com.ipartek.formacion.nidea.controller.MaterialesController"%>
 <%@page import="com.ipartek.formacion.nidea.controller.backoffice.MaterialController"%>
 <%@include file="/templates/head.jsp" %>
@@ -11,47 +12,36 @@
 	  <div class="form-group row">
 	    <label for="id" class="col-sm-2 col-form-label">ID:</label>
 	    <div class="col-sm-2">
-	      <input type="text" class="form-control" name="id" readonly value="${material.id}">
+	      <input type="text" class="form-control" name="id" readonly value="${usuario.id}">
 	    </div>
 	  </div>
 	  <div class="form-group row">
-	    <label for="nombre" class="col-sm-2 col-form-label">Material</label>
+	    <label for="nombre" class="col-sm-2 col-form-label">Usuario</label>
 	    <div class="col-sm-5">
-	      <input type="text"   autofocus class="form-control" name="nombre" placeholder="Introduce el nombre del material" value="${material.nombre}">
+	      <input type="text"   autofocus class="form-control" name="nombre" placeholder="Introduce el nombre del usuario" value="${usuario.nombre}">
 	    </div>
 	  </div>
 	  <div class="input-group ">
-	    <label for="precio" class="col-sm-2 col-form-label">Precio</label>
+	    <label for="password" class="col-sm-2 col-form-label">Contraseña</label>
 	    <div class="input-group-append">
-	      <input type="text" class="form-control" name="precio" placeholder="Introduce el precio" value="${material.precio }">
+	      <input type="text" class="form-control" name="password" placeholder="Introduce la contraseña" value="${usuario.password }">
 	      <span class="input-group-text">&euro;</span>
-	    </div>
-	  </div>
-	  <div class="input-group ">
-	    <label for="usuario" class="col-sm-2 col-form-label">Usuarios</label>
-	    <div class="input-group-append">
-	      <select name="idUsuario">
-	      <c:forEach items="${usuarios}" var="u">
-	      	<option value="${u.id }">${u.nombre}</option>
-	      </c:forEach>
-	      	
-	      </select>
 	    </div>
 	  </div>
 	</div>
 	<br> 
-	<c:if test="${material.id == -1}"> 
+	<c:if test="${usuario.id == -1}"> 
 		<div class="form-group row">
 			 <div class="col-sm-12">
-			 <input type="hidden" name="op" value="<%=MaterialController.OP_GUARDAR%>">
+			 <input type="hidden" name="op" value="<%=UsuarioController.OP_GUARDAR%>">
 			    <button type="submit" class="btn btn-primary btn-lg btn-block">Crear</button>
 			  </div>
 		</div>
 	  </c:if>
-	  <c:if test="${material.id > -1 }">
+	  <c:if test="${usuairo.id > -1 }">
 		  <div class="form-group row">
 		  	<div class="col-sm-6">
-			    <input type="hidden" name="op" value="<%=MaterialController.OP_GUARDAR%>">
+			    <input type="hidden" name="op" value="<%=UsuarioController.OP_GUARDAR%>">
 			    <button type="submit" class="btn btn-success btn-lg btn-block" >Modificar</button>
 			 </div>
 			 <div class="col-sm-6">
@@ -65,16 +55,16 @@
 				  <div class="modal-dialog" role="document">
 				    <div class="modal-content">
 				      <div class="modal-header">
-				      	<h5 class="modal-title" id="exampleModalLabel">Confirmacion de eliminacion de Material</h5>
+				      	<h5 class="modal-title" id="exampleModalLabel">Confirmacion de eliminacion del Usuario</h5>
 				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 				          <span aria-hidden="true">&times;</span>
 				        </button>
 				      </div>
 				      <div class="modal-body">
-				       Â¿Deseas eliminar el material seleccionado?
+				       ¿Deseas eliminar el usuario seleccionado?
 				      </div>
 				      <div class="modal-footer">
-				        <a href="backoffice/materiales?id=${material.id}&op=<%=MaterialController.OP_ELIMINAR%>" 
+				        <a href="backoffice/materiales?id=${usuario.id}&op=<%=UsuarioController.OP_ELIMINAR%>" 
 			       class="btn btn-danger">Eliminar</a>
 				      </div>
 				    </div>

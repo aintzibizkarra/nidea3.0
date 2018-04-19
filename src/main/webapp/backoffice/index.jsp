@@ -12,7 +12,11 @@
 
 %>
 <div class="text-center">
-  <a href="material"><img src="img/materiales.jpg" class="rounded" alt="materiales"></a>
+	<a href="material"><img src="img/material.jpg" class="rounded float-left" alt="materiales"></a>
+	<a href="roles"><img src="img/roles.jpg" class="rounded" alt="roles"></a>
+	<a href="usuarios"><img src="img/usuarios.png" class="rounded float-right" alt="roles"></a>
+  
+  
 </div>
 
 <ul>

@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import com.ipartek.formacion.nidea.pojo.Rol;
 import com.ipartek.formacion.nidea.pojo.Usuarios;
 import com.ipartek.formacion.nidea.util.Utilidades;
 
@@ -33,29 +34,34 @@ public class UsuarioDAO implements Persistible<Usuarios> {
 		return INSTANCE;
 	}
 
-	public ArrayList<Usuarios> checkUsuario(String nombre, String password) {
-
-		ArrayList<Usuarios> usuarioConectado = new ArrayList<Usuarios>();
-
-		String sql = "SELECT id, nombre, password, id_rol FROM usuario WHERE nombre = '?'" + nombre + "password = '?'"
-				+ password;
+	/**
+	 * Buscamos un usuario por nombre y password
+	 * 
+	 * @param nombre
+	 *            String, corresponde al nombre del usuario
+	 * @param password
+	 *            String
+	 * @return Usuario si existe o null si no existe
+	 */
+	public Usuarios check(String nombre, String password) {
+		Usuarios resultado = null;
+		String sql = "SELECT u.id as 'usuario_id', u.nombre as 'usuario_nombre', u.password, r.id as 'rol_id', r.nombre as 'rol_nombre' "
+				+ "FROM usuario as u, rol as r " + "WHERE u.id_rol = r.id AND u.nombre=? and u.password = ?;";
 		try (Connection con = ConnectionManager.getConnection(); PreparedStatement pst = con.prepareStatement(sql);) {
-
 			pst.setString(1, nombre);
 			pst.setString(2, password);
-
-			try (ResultSet rs = pst.executeQuery()) {
-				Usuarios u = null;
+			try (ResultSet rs = pst.executeQuery();) {
 				while (rs.next()) {
-					u = mapper(rs);
-					usuarioConectado.add(u);
+					resultado = mapper(rs);
+
 				}
+
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace();
-
 		}
-		return usuarioConectado;
+		return resultado;
 
 	}
 
@@ -186,13 +192,16 @@ public class UsuarioDAO implements Persistible<Usuarios> {
 
 	@Override
 	public Usuarios mapper(ResultSet rs) throws SQLException {
-		Usuarios u = null;
-		if (rs != null) {
-			u = new Usuarios();
-			u.setNombre((rs.getString("nombre")));
-			u.setId(rs.getInt("id"));
-			u.setPassword((rs.getString("password")));
-		}
+
+		Usuarios u = new Usuarios();
+		u.setId(rs.getInt("usuario_id"));
+		u.setNombre(rs.getString("usuario_nombre"));
+		u.setPassword(rs.getString("password"));
+		// Rol del usuario
+		Rol rol = new Rol();
+		rol.setId(rs.getInt("rol_id"));
+		rol.setNombre(rs.getString("rol_nombre"));
+		u.setRol(rol);
 
 		return u;
 	}

@@ -7,6 +7,9 @@ public class Usuarios {
 	private String password;
 	private Rol rol;
 
+	public static final int ROL_ADMIN = 1;
+	public static final int ROL_NORMAL = 2;
+
 	public Usuarios() {
 		super();
 		this.nombre = "";

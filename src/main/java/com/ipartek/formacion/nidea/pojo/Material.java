@@ -6,11 +6,14 @@ public class Material {
 	private String nombre;
 	private float precio;
 
+	private Usuarios usuario;
+
 	public Material() {
 		super();
 		this.id = -1;
 		this.nombre = "";
 		this.precio = 0f;
+		this.usuario = new Usuarios();
 	}
 
 	public int getId() {
@@ -37,9 +40,17 @@ public class Material {
 		this.precio = precio;
 	}
 
+	public Usuarios getUsuario() {
+		return usuario;
+	}
+
+	public void setUsuario(Usuarios usuario) {
+		this.usuario = usuario;
+	}
+
 	@Override
 	public String toString() {
-		return "Material [id=" + id + ", nombre=" + nombre + ", precio=" + precio + "]";
+		return "Material [id=" + id + ", nombre=" + nombre + ", precio=" + precio + ", usuario=" + usuario + "]";
 	}
 
 }

@@ -11,7 +11,8 @@
                name="usuario" 
                placeholder="Nombre Usuario" 
                required autofocus
-               value="admin">
+               value="administrador"
+               >
                
         <label for="usuario">Nombre Usuario</label>
       </div>
@@ -21,7 +22,8 @@
                name="password" 
                class="form-control" 
                placeholder="Contraseña" required
-               value="admin">
+               value="123456"
+               >
                
         <label for="password">Contraseña</label>
       </div>
